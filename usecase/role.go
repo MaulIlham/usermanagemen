@@ -26,7 +26,7 @@ func (h Handler) SaveRole(c *gin.Context) {
 
 	err := newRole.InsertRole(&role)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -43,7 +43,7 @@ func (h Handler) ReadAllRole(c *gin.Context) {
 
 	role, err := newRole.ReadAllRole()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -67,14 +67,14 @@ func (h Handler) ReadDataRoleById(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	role, err := newRole.ReadRoleById(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -98,14 +98,14 @@ func (h Handler) DeleteDataRole(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	err = newRole.DeleteRole(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -123,14 +123,14 @@ func (h Handler) UpdateRole(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, role); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.UpdateRole(&role)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}

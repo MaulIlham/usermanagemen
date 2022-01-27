@@ -19,14 +19,14 @@ func (h Handler) SaveUser(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, user); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.InsertUser(&user)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -43,7 +43,7 @@ func (h Handler) ReadAllUser(c *gin.Context) {
 
 	listUser, err := newController.ReadAllUser()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -67,14 +67,14 @@ func (h Handler) ReadDataUserById(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	user, err := newController.ReadUserById(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -98,14 +98,14 @@ func (h Handler) DeleteDataUser(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	err = newController.DeleteUser(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -123,14 +123,14 @@ func (h Handler) UpdateUser(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, user); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.UpdateUser(&user)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}

@@ -3,8 +3,10 @@ package config
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"os"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"io/ioutil"
+	"log"
+	"os"
 )
 
 type Database struct {
@@ -13,6 +15,7 @@ type Database struct {
 
 func InitDB(keyUser, keyPassword, keyHost, keyPort, keySchema string) (Database, error) {
 	db := Database{}
+
 	dataSource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True",
 		os.Getenv(keyUser),
 		os.Getenv(keyPassword),
@@ -21,6 +24,7 @@ func InitDB(keyUser, keyPassword, keyHost, keyPort, keySchema string) (Database,
 		os.Getenv(keySchema),
 	)
 
+	log.Println(dataSource)
 	conn, err := gorm.Open("mysql", dataSource)
 	if err != nil {
 		fmt.Println(err)
@@ -30,4 +34,16 @@ func InitDB(keyUser, keyPassword, keyHost, keyPort, keySchema string) (Database,
 	db.Conn = conn
 
 	return db, nil
+}
+
+func InitMigration(db *gorm.DB) {
+	file, err := ioutil.ReadFile("migration.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//exec.Command("mysql", "-u", "admin","-pP@ssword123","user_management","-e","source migration")
+	if err := db.Exec(string(file)).Error; err!= nil {
+		log.Fatal(err)
+	}
 }

@@ -48,18 +48,17 @@ func (h Handler) Requesthandler(group *gin.RouterGroup) {
 }
 
 func Init() {
-	var err error
 
 	db, err := config.InitDB("MYSQL_USER", "MYSQL_PASSWORD", "MYSQL_HOST", "MYSQL_PORT", "MYSQL_SCHEMA")
 	if err != nil {
 		log.Fatal("Connection failed")
-		os.Exit(1)
 	}
-	log.Fatal("Database connection established")
+
+	config.InitMigration(db.Conn)
 
 	handler := NewHandler(db)
 	router := gin.Default()
-	rg := router.Group("/api/v1")
+	rg := router.Group("/")
 	handler.Requesthandler(rg)
 	router.Run(os.Getenv("PORT"))
 }

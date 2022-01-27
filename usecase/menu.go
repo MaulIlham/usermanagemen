@@ -19,14 +19,14 @@ func (h Handler) SaveMenu(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, menu); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.InsertMenu(&menu)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -43,7 +43,7 @@ func (h Handler) ReadAllMenu(c *gin.Context) {
 
 	listMenu, err := newController.ReadAllMenu()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -67,14 +67,14 @@ func (h Handler) ReadDataMenuById(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	menu, err := newController.ReadMenuById(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -98,14 +98,14 @@ func (h Handler) DeleteDataMenu(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	err = newController.DeleteMenu(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -123,14 +123,14 @@ func (h Handler) UpdateMenu(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, menu); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.UpdateMenu(&menu)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}

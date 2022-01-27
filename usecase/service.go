@@ -19,14 +19,14 @@ func (h Handler) SaveService(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, service); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.InsertService(&service)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -45,14 +45,14 @@ func (h Handler) UpdateService(c *gin.Context) {
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
 	if err := json.Unmarshal(body, service); err != nil {
-		log.Fatal("could not parse request body")
+		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
 	err := newController.UpdateService(&service)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -69,7 +69,7 @@ func (h Handler) ReadAllService(c *gin.Context) {
 
 	listUser, err := newController.ReadAllService()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -93,14 +93,14 @@ func (h Handler) ReadDataServiceById(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	service, err := newController.ReadServiceById(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
@@ -124,14 +124,14 @@ func (h Handler) DeleteDataService(c *gin.Context) {
 
 	id, err := strconv.Atoi(param)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
 
 	err = newController.DeleteService(id)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
 		return
 	}
