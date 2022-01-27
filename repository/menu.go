@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 	"log"
 	"time"
 	"usermanagement/models"
@@ -15,7 +15,7 @@ func MenuNewController(db *gorm.DB) *MenuController {
 	return &MenuController{db}
 }
 
-func (c MenuController) InsertController(newMenu *models.Menu) error {
+func (c MenuController) InsertMenu(newMenu *models.Menu) error {
 	newMenu.CreateAt = time.Now()
 	if err := c.db.Table("menu").Save(newMenu).Error; err!= nil {
 		log.Fatal(err)

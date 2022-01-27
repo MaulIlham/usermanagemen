@@ -12,19 +12,19 @@ import (
 	"usermanagement/repository"
 )
 
-func (h Handler) SaveRole(c *gin.Context) {
-	role := models.Role{}
+func (h Handler) SaveMenu(c *gin.Context) {
+	menu := models.Menu{}
 
-	newRole := repository.RoleNewController(h.DB.Conn)
+	newController := repository.MenuNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, role); err != nil {
+	if err := json.Unmarshal(body, menu); err != nil {
 		log.Fatal("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
-	err := newRole.InsertRole(&role)
+	err := newController.InsertMenu(&menu)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
@@ -34,14 +34,14 @@ func (h Handler) SaveRole(c *gin.Context) {
 	c.JSON(http.StatusBadRequest, models.Logger{
 		Status: "Ok",
 		Message: "Insert Data Success",
-		Data: role,
+		Data: menu,
 	})
 }
 
-func (h Handler) ReadAllRole(c *gin.Context) {
-	newRole := repository.RoleNewController(h.DB.Conn)
+func (h Handler) ReadAllMenu(c *gin.Context) {
+	newController := repository.MenuNewController(h.DB.Conn)
 
-	role, err := newRole.ReadAllRole()
+	listMenu, err := newController.ReadAllMenu()
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
@@ -51,14 +51,14 @@ func (h Handler) ReadAllRole(c *gin.Context) {
 	c.JSON(http.StatusBadRequest, models.Logger{
 		Status: "Ok",
 		Message: "Read All Data Success",
-		Data: role,
+		Data: listMenu,
 	})
 }
 
-func (h Handler) ReadDataRoleById(c *gin.Context) {
+func (h Handler) ReadDataMenuById(c *gin.Context) {
 	var param string
 
-	newRole := repository.RoleNewController(h.DB.Conn)
+	newController := repository.MenuNewController(h.DB.Conn)
 
 	if param, _ = c.GetQuery("q"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
@@ -72,7 +72,7 @@ func (h Handler) ReadDataRoleById(c *gin.Context) {
 		return
 	}
 
-	role, err := newRole.ReadRoleById(id)
+	menu, err := newController.ReadMenuById(id)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
@@ -82,14 +82,14 @@ func (h Handler) ReadDataRoleById(c *gin.Context) {
 	c.JSON(http.StatusBadRequest, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Read Data With ID : %d Success",id),
-		Data: role,
+		Data: menu,
 	})
 }
 
-func (h Handler) DeleteDataRole(c *gin.Context) {
+func (h Handler) DeleteDataMenu(c *gin.Context) {
 	var param string
 
-	newRole := repository.RoleNewController(h.DB.Conn)
+	newController := repository.MenuNewController(h.DB.Conn)
 
 	if param, _ = c.GetQuery("q"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
@@ -103,7 +103,7 @@ func (h Handler) DeleteDataRole(c *gin.Context) {
 		return
 	}
 
-	err = newRole.DeleteRole(id)
+	err = newController.DeleteMenu(id)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
@@ -116,19 +116,19 @@ func (h Handler) DeleteDataRole(c *gin.Context) {
 	})
 }
 
-func (h Handler) UpdateRole(c *gin.Context) {
-	role := models.Role{}
+func (h Handler) UpdateMenu(c *gin.Context) {
+	menu := models.Menu{}
 
-	newController := repository.RoleNewController(h.DB.Conn)
+	newController := repository.MenuNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, role); err != nil {
+	if err := json.Unmarshal(body, menu); err != nil {
 		log.Fatal("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
 	}
 
-	err := newController.UpdateRole(&role)
+	err := newController.UpdateMenu(&menu)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf(err.Error())})
@@ -138,6 +138,6 @@ func (h Handler) UpdateRole(c *gin.Context) {
 	c.JSON(http.StatusBadRequest, models.Logger{
 		Status: "Ok",
 		Message: "Update Data Success",
-		Data: role,
+		Data: menu,
 	})
 }

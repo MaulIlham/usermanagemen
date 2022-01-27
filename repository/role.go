@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 	"log"
 	"time"
 	"usermanagement/models"
@@ -55,7 +55,7 @@ func (c RoleController) UpdateRole(role *models.Role) error {
 	return nil
 }
 
-func (c RoleController) DeleteMenu(id int) error {
+func (c RoleController) DeleteRole(id int) error {
 	if err := c.db.Table("role").Delete(&models.Role{}, id).Error; err != nil {
 		log.Fatal(err)
 		return err

@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 	"log"
 	"time"
 	"usermanagement/models"
