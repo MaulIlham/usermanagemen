@@ -37,13 +37,16 @@ func InitDB(keyUser, keyPassword, keyHost, keyPort, keySchema string) (Database,
 }
 
 func InitMigration(db *gorm.DB) {
-	file, err := ioutil.ReadFile("migration.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
+	for i := 0; i < 5; i++ {
+		fileName := fmt.Sprintf("/config/database/migration%d.txt",i)
+		file, err := ioutil.ReadFile(fileName)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	//exec.Command("mysql", "-u", "admin","-pP@ssword123","user_management","-e","source migration")
-	if err := db.Exec(string(file)).Error; err!= nil {
-		log.Fatal(err)
+		//exec.Command("mysql", "-u", "admin","-pP@ssword123","user_management","-e","source migration")
+		if err := db.Exec(string(file)).Error; err!= nil {
+			log.Fatal(err)
+		}
 	}
 }
