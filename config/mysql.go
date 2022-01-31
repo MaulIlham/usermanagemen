@@ -37,8 +37,8 @@ func InitDB(keyUser, keyPassword, keyHost, keyPort, keySchema string) (Database,
 }
 
 func InitMigration(db *gorm.DB) {
-	for i := 0; i < 5; i++ {
-		fileName := fmt.Sprintf("/config/database/migration%d.txt",i)
+	for i := 1; i <= 7; i++ {
+		fileName := fmt.Sprintf("config/database/migration%d.txt",i)
 		file, err := ioutil.ReadFile(fileName)
 		if err != nil {
 			log.Fatal(err)

@@ -1,10 +1,16 @@
-CREATE TABLE IF NOT EXISTS `user_management`.`menu` (
-  `id` INT(11) NOT NULL,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
-  `created_by` VARCHAR(255) NULL DEFAULT NULL,
-  `update_by` VARCHAR(255) NULL DEFAULT NULL,
-  `created_at` DATETIME NULL DEFAULT NULL,
-  `update_at` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+CREATE TABLE IF NOT EXISTS `user_management`.`role_has_user` (
+  `role_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`role_id`, `user_id`),
+  CONSTRAINT `fk_role_has_user_role`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `user_management`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_role_has_user_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user_management`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;

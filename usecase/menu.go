@@ -18,7 +18,7 @@ func (h Handler) SaveMenu(c *gin.Context) {
 	newController := repository.MenuNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, menu); err != nil {
+	if err := json.Unmarshal(body, &menu); err != nil {
 		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
@@ -31,7 +31,7 @@ func (h Handler) SaveMenu(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusCreated, models.Logger{
 		Status: "Ok",
 		Message: "Insert Data Success",
 		Data: menu,
@@ -48,7 +48,7 @@ func (h Handler) ReadAllMenu(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Read All Data Success",
 		Data: listMenu,
@@ -79,7 +79,7 @@ func (h Handler) ReadDataMenuById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Read Data With ID : %d Success",id),
 		Data: menu,
@@ -110,7 +110,7 @@ func (h Handler) DeleteDataMenu(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Delete Data With ID : %d Success",id),
 	})
@@ -135,7 +135,7 @@ func (h Handler) UpdateMenu(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Update Data Success",
 		Data: menu,

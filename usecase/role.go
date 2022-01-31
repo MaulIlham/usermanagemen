@@ -31,7 +31,7 @@ func (h Handler) SaveRole(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusCreated, models.Logger{
 		Status: "Ok",
 		Message: "Insert Data Success",
 		Data: role,
@@ -48,7 +48,7 @@ func (h Handler) ReadAllRole(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Read All Data Success",
 		Data: role,
@@ -79,7 +79,7 @@ func (h Handler) ReadDataRoleById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Read Data With ID : %d Success",id),
 		Data: role,
@@ -110,7 +110,7 @@ func (h Handler) DeleteDataRole(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Delete Data With ID : %d Success",id),
 	})
@@ -135,7 +135,7 @@ func (h Handler) UpdateRole(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Update Data Success",
 		Data: role,

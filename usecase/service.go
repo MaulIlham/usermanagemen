@@ -31,7 +31,7 @@ func (h Handler) SaveService(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusCreated, models.Logger{
 		Status: "Ok",
 		Message: "Insert Data Success",
 		Data: service,
@@ -57,7 +57,7 @@ func (h Handler) UpdateService(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Update Data Success",
 		Data: service,
@@ -74,7 +74,7 @@ func (h Handler) ReadAllService(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: "Read All Data Success",
 		Data: listUser,
@@ -105,7 +105,7 @@ func (h Handler) ReadDataServiceById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Read Data With ID : %d Success",id),
 		Data: service,
@@ -136,7 +136,7 @@ func (h Handler) DeleteDataService(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusBadRequest, models.Logger{
+	c.JSON(http.StatusOK, models.Logger{
 		Status: "Ok",
 		Message: fmt.Sprintf("Delete Data With ID : %d Success",id),
 	})

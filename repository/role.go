@@ -17,6 +17,7 @@ func RoleNewController(db *gorm.DB) *RoleController {
 
 func (c RoleController) InsertRole(newRole *models.Role) error {
 	newRole.CreateAt = time.Now()
+	newRole.UpdateAt = time.Now()
 	if err := c.db.Table("role").Save(newRole).Error; err!= nil {
 		log.Println(err)
 		return err

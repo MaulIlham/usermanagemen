@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `user_management`.`menu` (
+CREATE TABLE IF NOT EXISTS `user_management`.`role` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(255) NULL DEFAULT NULL,
   `created_by` VARCHAR(255) NULL DEFAULT NULL,

@@ -58,7 +58,7 @@ func Init() {
 
 	handler := NewHandler(db)
 	router := gin.Default()
-	rg := router.Group("/")
+	rg := router.Group("/v1/api")
 	handler.Requesthandler(rg)
 	router.Run(os.Getenv("PORT"))
 }

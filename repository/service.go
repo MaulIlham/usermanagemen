@@ -17,6 +17,7 @@ func ServiceNewController(db *gorm.DB) *ServiceController {
 
 func (c ServiceController) InsertService(newService *models.Service) error {
 	newService.CreateAt = time.Now()
+	newService.UpdateAt = time.Now()
 	if err := c.db.Table("service").Save(newService).Error; err!= nil {
 		log.Println(err)
 		return err

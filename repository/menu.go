@@ -16,7 +16,8 @@ func MenuNewController(db *gorm.DB) *MenuController {
 }
 
 func (c MenuController) InsertMenu(newMenu *models.Menu) error {
-	newMenu.CreateAt = time.Now()
+	newMenu.CreatedAt = time.Now()
+	newMenu.UpdateAt = time.Now()
 	if err := c.db.Table("menu").Save(newMenu).Error; err!= nil {
 		log.Println(err)
 		return err

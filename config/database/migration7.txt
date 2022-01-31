@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS `user_management`.`role_has_service` (
+  `role_id` INT(11) NOT NULL,
+  `service_id` INT(11) NOT NULL,
+  PRIMARY KEY (`role_id`, `service_id`),
+  CONSTRAINT `fk_role_has_service_role1`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `user_management`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_role_has_service_service1`
+    FOREIGN KEY (`service_id`)
+    REFERENCES `user_management`.`service` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
