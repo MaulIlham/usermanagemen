@@ -16,7 +16,7 @@ func RoleNewController(db *gorm.DB) *RoleController {
 }
 
 func (c RoleController) InsertRole(newRole *models.Role) error {
-	newRole.CreateAt = time.Now()
+	newRole.CreatedAt = time.Now()
 	newRole.UpdateAt = time.Now()
 	if err := c.db.Table("role").Save(newRole).Error; err!= nil {
 		log.Println(err)
@@ -39,7 +39,7 @@ func (c RoleController) ReadAllRole() ([]*models.Role,error){
 func (c RoleController) ReadRoleById(id int) (*models.Role,error){
 	role := models.Role{}
 
-	if err := c.db.Table("role").Where("id = ?",id).Find(role).Error; err!= nil {
+	if err := c.db.Table("role").Where("id = ?",id).Find(&role).Error; err!= nil {
 		log.Println(err)
 		return nil,err
 	}

@@ -39,7 +39,8 @@ func (c MenuController) ReadAllMenu() ([]*models.Menu,error){
 func (c MenuController) ReadMenuById(id int) (*models.Menu,error){
 	menu := models.Menu{}
 
-	if err := c.db.Table("menu").Where("id = ?",id).Find(menu).Error; err!= nil {
+	log.Println(id)
+	if err := c.db.Table("menu").Where("id = ?",id).Find(&menu).Error; err!= nil {
 		log.Println(err)
 		return nil,err
 	}

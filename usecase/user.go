@@ -18,7 +18,7 @@ func (h Handler) SaveUser(c *gin.Context) {
 	newController := repository.UserNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, user); err != nil {
+	if err := json.Unmarshal(body, &user); err != nil {
 		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
@@ -60,7 +60,7 @@ func (h Handler) ReadDataUserById(c *gin.Context) {
 
 	newController := repository.UserNewController(h.DB.Conn)
 
-	if param, _ = c.GetQuery("q"); param == "" {
+	if param, _ = c.GetQuery("id"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
 		return
 	}
@@ -91,7 +91,7 @@ func (h Handler) DeleteDataUser(c *gin.Context) {
 
 	newController := repository.UserNewController(h.DB.Conn)
 
-	if param, _ = c.GetQuery("q"); param == "" {
+	if param, _ = c.GetQuery("id"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
 		return
 	}
@@ -122,7 +122,7 @@ func (h Handler) UpdateUser(c *gin.Context) {
 	newController := repository.UserNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, user); err != nil {
+	if err := json.Unmarshal(body, &user); err != nil {
 		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return

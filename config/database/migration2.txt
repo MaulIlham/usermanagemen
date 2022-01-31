@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `user_management`.`role` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL auto_increment,
   `name` VARCHAR(255) NULL DEFAULT NULL,
   `created_by` VARCHAR(255) NULL DEFAULT NULL,
   `update_by` VARCHAR(255) NULL DEFAULT NULL,

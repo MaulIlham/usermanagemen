@@ -16,7 +16,7 @@ func ServiceNewController(db *gorm.DB) *ServiceController {
 }
 
 func (c ServiceController) InsertService(newService *models.Service) error {
-	newService.CreateAt = time.Now()
+	newService.CreatedAt = time.Now()
 	newService.UpdateAt = time.Now()
 	if err := c.db.Table("service").Save(newService).Error; err!= nil {
 		log.Println(err)
@@ -39,7 +39,7 @@ func (c ServiceController) ReadAllService() ([]*models.Service,error){
 func (c ServiceController) ReadServiceById(id int) (*models.Service,error){
 	service := models.Service{}
 
-	if err := c.db.Table("service").Where("id = ?",id).Find(service).Error; err!= nil {
+	if err := c.db.Table("service").Where("id = ?",id).Find(&service).Error; err!= nil {
 		log.Println(err)
 		return nil,err
 	}

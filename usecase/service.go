@@ -18,7 +18,7 @@ func (h Handler) SaveService(c *gin.Context) {
 	newController := repository.ServiceNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, service); err != nil {
+	if err := json.Unmarshal(body, &service); err != nil {
 		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
@@ -44,7 +44,7 @@ func (h Handler) UpdateService(c *gin.Context) {
 	newController := repository.ServiceNewController(h.DB.Conn)
 
 	body, _ := ioutil.ReadAll(c.Request.Body)
-	if err := json.Unmarshal(body, service); err != nil {
+	if err := json.Unmarshal(body, &service); err != nil {
 		log.Println("could not parse request body")
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("invalid request body: %s", err.Error())})
 		return
@@ -86,7 +86,7 @@ func (h Handler) ReadDataServiceById(c *gin.Context) {
 
 	newController := repository.ServiceNewController(h.DB.Conn)
 
-	if param, _ = c.GetQuery("q"); param == "" {
+	if param, _ = c.GetQuery("id"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
 		return
 	}
@@ -117,7 +117,7 @@ func (h Handler) DeleteDataService(c *gin.Context) {
 
 	newController := repository.ServiceNewController(h.DB.Conn)
 
-	if param, _ = c.GetQuery("q"); param == "" {
+	if param, _ = c.GetQuery("id"); param == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No Id Param Request"})
 		return
 	}

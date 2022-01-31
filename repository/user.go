@@ -16,7 +16,7 @@ func UserNewController(db *gorm.DB) *UserController {
 }
 
 func (c UserController) InsertUser(newUser *models.User) error {
-	newUser.CreateAt = time.Now()
+	newUser.CreatedAt = time.Now()
 	newUser.UpdateAt = time.Now()
 	if err := c.db.Table("user").Save(newUser).Error; err!= nil {
 		log.Println(err)
@@ -49,7 +49,7 @@ func (c UserController) ReadUserById(id int) (*models.User,error){
 
 func (c UserController) UpdateUser(user *models.User) error {
 	user.UpdateAt = time.Now()
-	if err := c.db.Table("user").Updates(user).Error; err!= nil {
+	if err := c.db.Table("user").Updates(&user).Error; err!= nil {
 		log.Println(err)
 		return err
 	}
