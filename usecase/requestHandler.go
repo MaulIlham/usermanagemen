@@ -23,6 +23,9 @@ func (h Handler) Requesthandler(group *gin.RouterGroup) {
 	group.POST("/role", h.SaveRole)
 	group.PUT("/role", h.UpdateRole)
 	group.DELETE("/role", h.DeleteDataRole)
+	group.POST("/role/service", h.SaveRoleService)
+	group.POST("/role/menu", h.SaveRoleMenu)
+	group.POST("/role/user", h.SaveRoleUser)
 
 	//user
 	group.GET("/users", h.ReadAllUser)

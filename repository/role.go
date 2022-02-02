@@ -64,3 +64,60 @@ func (c RoleController) DeleteRole(id int) error {
 
 	return nil
 }
+
+func (c RoleController) InsertRoleService(services []*models.Service, idRole int) error {
+
+	for _, service := range services {
+
+		new := models.RoleHasService{
+			idRole,
+			service.Id,
+		}
+
+		if err := c.db.Table("role_has_service").Save(&new).Error; err!= nil {
+			log.Println(err)
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (c RoleController) InsertRoleMenu(listMenu []*models.Menu, idRole int) error {
+
+	for _, menu := range listMenu {
+
+		new := models.RoleHasMenu{
+			idRole,
+			menu.Id,
+		}
+
+		if err := c.db.Table("role_has_menu").Save(&new).Error; err!= nil {
+			log.Println(err)
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (c RoleController) InsertRoleUser(listUser []*models.User, idRole int) error {
+
+	for _, user := range listUser {
+
+		new := models.RoleHasUser{
+			idRole,
+			user.Id,
+		}
+
+		if err := c.db.Table("role_has_user").Save(&new).Error; err!= nil {
+			log.Println(err)
+			return err
+		}
+
+	}
+
+	return nil
+}
