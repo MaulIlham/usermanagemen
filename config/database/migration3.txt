@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `user_management`.`service` (
   `update_by` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT NULL,
   `update_at` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE KEY unique_service_id (id))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;

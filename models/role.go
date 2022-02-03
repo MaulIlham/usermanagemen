@@ -5,7 +5,8 @@ import "time"
 type Role struct {
 	Id        int       `json:"id" gorm:"id"`
 	Name      string    `json:"name" gorm:"name"`
-	Menu      []*Menu    `json:"menu" gorm:"many2many:role_has_menu;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Menu      []*Menu    `json:"menu"`
+	Service   []*Service `json:"service"`
 	CreatedAt time.Time `json:"created_at" gorm:"created_at"`
 	UpdateAt  time.Time `json:"update_at" gorm:"update_at"`
 	CreatedBy string    `json:"created_by" gorm:"created_by"`
