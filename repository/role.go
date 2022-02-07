@@ -49,11 +49,39 @@ func (c RoleController) ReadAllRole() ([]*models.Role,error){
 
 func (c RoleController) ReadRoleById(id int) (*models.Role,error){
 	role := models.Role{}
+	listRoleMenu := []*models.Menu{}
+	listRoleService := []*models.Service{}
+
+	newMenu := MenuNewController(c.db)
+	newService := ServiceNewController(c.db)
 
 	if err := c.db.Debug().Table("role").Where("id = ?",id).Find(&role).Error; err!= nil {
 		log.Println(err)
 		return nil,err
 	}
+
+	listMenu, err := c.ReadAllRoleMenuById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	listService, err := c.ReadAllRoleServiceById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, data := range listMenu {
+		menu, _ := newMenu.ReadMenuById(data.MenuId)
+		listRoleMenu = append(listRoleMenu,menu)
+	}
+
+	for _, data := range listService {
+		service, _ := newService.ReadServiceById(data.ServiceId)
+		listRoleService = append(listRoleService,service)
+	}
+
+	role.Service = listRoleService
+	role.Menu = listRoleMenu
 
 	return &role, nil
 }
@@ -62,12 +90,12 @@ func (c RoleController) UpdateRole(role *models.Role) error {
 	role.UpdateAt = time.Now()
 
 	//deleting helping table
-	err := c.DeleteRoleHasService()
+	err := c.DeleteRoleHasService(role.Id)
 	if err != nil {
 		return err
 	}
 
-	err = c.DeleteRoleHasmenu()
+	err = c.DeleteRoleHasmenu(role.Id)
 	if err != nil {
 		return err
 	}
@@ -102,12 +130,12 @@ func (c RoleController) UpdateRole(role *models.Role) error {
 
 func (c RoleController) DeleteRole(id int) error {
 
-	err := c.DeleteRoleHasmenu()
+	err := c.DeleteRoleHasmenu(id)
 	if err != nil {
 		return err
 	}
 
-	err = c.DeleteRoleHasService()
+	err = c.DeleteRoleHasService(id)
 	if err != nil {
 		return err
 	}
@@ -180,8 +208,30 @@ func (c RoleController) ReadAllRoleMenu() ([]*models.RoleHasMenu,error){
 	return list, nil
 }
 
-func (c RoleController) DeleteRoleHasService() error {
-	list, err := c.ReadAllRoleService()
+func (c RoleController) ReadAllRoleMenuById(idRole int) ([]*models.RoleHasMenu,error){
+	list := []*models.RoleHasMenu{}
+
+	if err := c.db.Debug().Table("role_has_menu").Where("role_id = ?",idRole).Find(&list).Error; err!= nil {
+		log.Println(err)
+		return nil,err
+	}
+
+	return list, nil
+}
+
+func (c RoleController) ReadAllRoleServiceById(idRole int) ([]*models.RoleHasService,error){
+	list := []*models.RoleHasService{}
+
+	if err := c.db.Debug().Table("role_has_service").Where("role_id = ?",idRole).Find(&list).Error; err!= nil {
+		log.Println(err)
+		return nil,err
+	}
+
+	return list, nil
+}
+
+func (c RoleController) DeleteRoleHasService(id int) error {
+	list, err := c.ReadAllRoleServiceById(id)
 	if err != nil {
 		return err
 	}
@@ -196,8 +246,8 @@ func (c RoleController) DeleteRoleHasService() error {
 	return nil
 }
 
-func (c RoleController) DeleteRoleHasmenu() error {
-	list, err := c.ReadAllRoleMenu()
+func (c RoleController) DeleteRoleHasmenu(id int) error {
+	list, err := c.ReadAllRoleMenuById(id)
 	if err != nil {
 		return err
 	}

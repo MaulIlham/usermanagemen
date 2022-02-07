@@ -58,6 +58,12 @@ func (c MenuController) UpdateMenu(menu *models.Menu) error {
 }
 
 func (c MenuController) DeleteMenu(id int) error {
+
+	err := c.DeleteRoleHasmenu(id)
+	if err != nil {
+		return err
+	}
+
 	if err := c.db.Table("menu").Delete(&models.Menu{}, id).Error; err != nil {
 		log.Println(err)
 		return err
@@ -66,3 +72,29 @@ func (c MenuController) DeleteMenu(id int) error {
 	return nil
 }
 
+func (c MenuController) DeleteRoleHasmenu(id int) error {
+	list, err := c.ReadAllRoleHasMenuById(id)
+	if err != nil {
+		return err
+	}
+
+	for _, data := range list {
+		if err := c.db.Debug().Table("role_has_menu").Where("menu_id = ?",data.MenuId).Delete(&models.RoleHasMenu{}).Error; err != nil {
+			log.Println(err)
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (c MenuController) ReadAllRoleHasMenuById(id int) ([]*models.RoleHasMenu,error){
+	list := []*models.RoleHasMenu{}
+
+	if err := c.db.Debug().Table("role_has_menu").Where("menu_id = ?",id).Find(&list).Error; err!= nil {
+		log.Println(err)
+		return nil,err
+	}
+
+	return list, nil
+}

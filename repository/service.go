@@ -57,6 +57,12 @@ func (c ServiceController) UpdateService(service *models.Service) error {
 }
 
 func (c ServiceController) DeleteService(id int) error {
+
+	err := c.DeleteRoleHasService(id)
+	if err != nil {
+		return err
+	}
+
 	if err := c.db.Table("service").Delete(&models.Service{}, id).Error; err != nil {
 		log.Println(err)
 		return err
@@ -65,3 +71,29 @@ func (c ServiceController) DeleteService(id int) error {
 	return nil
 }
 
+func (c ServiceController) DeleteRoleHasService(id int) error {
+	list, err := c.ReadAllRoleHasServiceById(id)
+	if err != nil {
+		return err
+	}
+
+	for _, data := range list {
+		if err := c.db.Debug().Table("role_has_service").Where("service_id = ?",data.ServiceId).Delete(&models.RoleHasService{}).Error; err != nil {
+			log.Println(err)
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (c ServiceController) ReadAllRoleHasServiceById(id int) ([]*models.RoleHasService,error){
+	list := []*models.RoleHasService{}
+
+	if err := c.db.Debug().Table("role_has_service").Where("service_id = ?",id).Find(&list).Error; err!= nil {
+		log.Println(err)
+		return nil,err
+	}
+
+	return list, nil
+}

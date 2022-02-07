@@ -18,11 +18,6 @@ type RoleHasMenu struct {
 	MenuId int `json:"menu_id"`
 }
 
-type RoleHasUser struct {
-	RoleId int `json:"role_id"`
-	UserId int `json:"user_id"`
-}
-
 type RoleHasService struct {
 	RoleId    int `json:"role_id"`
 	ServiceId int `json:"service_id"`
