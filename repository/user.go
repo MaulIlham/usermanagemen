@@ -32,10 +32,29 @@ func (c UserController) InsertUser(newUser *models.User) error {
 
 func (c UserController) ReadAllUser() ([]*models.User,error){
 	users := []*models.User{}
+	newRole := RoleNewController(c.db)
 
 	if err := c.db.Table("user").Find(&users).Error; err!= nil {
 		log.Println(err)
 		return nil,err
+	}
+
+	for _, data := range users {
+		listRole := []*models.Role{}
+
+		list, err := c.ReadAllUserHasRoleById(data.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, data := range list {
+			role, _ := newRole.ReadRoleById(data.RoleId)
+			log.Println(role)
+			listRole = append(listRole, role)
+		}
+
+		data.Role = listRole
+
 	}
 
 	return users, nil

@@ -38,10 +38,40 @@ func (c RoleController) InsertRole(newRole *models.Role) error {
 
 func (c RoleController) ReadAllRole() ([]*models.Role,error){
 	role := []*models.Role{}
+	newMenu := MenuNewController(c.db)
+	newService := ServiceNewController(c.db)
 
 	if err := c.db.Debug().Table("role").Find(&role).Error; err!= nil {
 		log.Println(err)
 		return nil,err
+	}
+
+	for _, data := range role {
+		listRoleMenu := []*models.Menu{}
+		listRoleService := []*models.Service{}
+
+		listMenu, err := c.ReadAllRoleMenuById(data.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		listService, err := c.ReadAllRoleServiceById(data.Id)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, data := range listMenu {
+			menu, _ := newMenu.ReadMenuById(data.MenuId)
+			listRoleMenu = append(listRoleMenu,menu)
+		}
+
+		for _, data := range listService {
+			service, _ := newService.ReadServiceById(data.ServiceId)
+			listRoleService = append(listRoleService,service)
+		}
+
+		data.Menu = listRoleMenu
+		data.Service = listRoleService
 	}
 
 	return role, nil
